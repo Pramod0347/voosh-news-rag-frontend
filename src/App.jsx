@@ -4,6 +4,7 @@ import { askQuestion, fetchHistory, clearHistory } from './services/api'
 import MessageList from './components/MessageList'
 import ChatInput from './components/ChatInput'
 
+
 export default function App() {
   const [sessionId, setSessionId] = useState(getOrCreateSessionId())
   const [messages, setMessages] = useState([])

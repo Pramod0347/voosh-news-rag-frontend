@@ -1,6 +1,9 @@
 import ky from 'ky'
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8080'
+import axios from "axios";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+export const api = axios.create({ baseURL: API_BASE });
 
 const client = ky.create({
   prefixUrl: API_BASE,
