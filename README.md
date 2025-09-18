@@ -1,4 +1,84 @@
-### Caching & Performance
-- **Session history TTL (Redis):** Each `sessionId` key has a TTL of 24h (configurable via `REDIS_TTL_SECS`). On each message write we refresh TTL, so active sessions persist longer.
-- **Answer cache (optional):** A naive cache keyed by `hash(sessionId + query)` → full LLM answer for 10 min to smooth repeated requests.
-- **Cache warming:** At server boot, we pre-run the top 5 onboarding queries against the vector store only (no LLM call) to hydrate I/O paths and JIT compile models.
+📌 Overview
+
+React + SCSS chat UI for the News RAG bot.
+
+Persists sessionId in localStorage
+
+Loads chat history on reload
+
+Sends queries to backend; bot reply types out (pseudo-stream)
+
+Reset button clears Redis history & rotates session
+
+Abort button cancels in-flight answer
+
+Live App: https://voosh-news-rag-frontend-cxilcz32z-pramods-projects-17c1ef9e.vercel.app/
+Backend API: https://voosh-news-rag-backend.onrender.com/
+
+✨ Features
+
+Chat Screen: message bubbles (user right, bot left), avatars, typing indicator
+
+Session Handling: sessionId persisted; history fetched via API
+
+Message Flow: optimistic user push → /api/ask → typed bot reply → abort support
+
+UI/UX: dark theme, responsive, auto-expanding textarea
+
+Resilience: normalizes history payloads; filters blanks; scrolls to bottom
+
+🗂️ Folder Structure
+src/
+  assets/
+  components/         # MessageList, MessageBubble, ChatInput
+  services/api.js     # axios client with baseURL
+  styles/
+  App.jsx, main.jsx
+vite.config.js
+index.html
+
+🛠️ Install & Run
+npm install
+npm run dev          # http://localhost:5173
+npm run build
+npm run preview      # local preview of the production build
+
+
+🚀 Deploy (Vercel)
+
+Import repo in Vercel → New Project
+
+Framework: Vite (auto)
+
+Build: npm ci && npm run build
+
+Output Dir: dist
+
+Env:
+
+VITE_API_BASE_URL = https://<your-backend>.onrender.com/api
+
+Deploy → open the URL and test
+
+🧪 Manual Test Plan
+
+Load app → it creates a sessionId and calls /history/:sid
+
+Ask a question → see typed reply + sources in console/network
+
+Reload → history is restored
+
+Click Reset → history clears; sessionId rotates
+
+Abort while answering → request stops
+
+🔧 Troubleshooting
+
+Double /api in Network tab → fix by either:
+
+Set VITE_API_BASE_URL with /api and use endpoints like "/ask", or
+
+Set base without /api and call "/api/ask"
+
+
+Empty history after reload → ensure sessionId persisted before fetching
