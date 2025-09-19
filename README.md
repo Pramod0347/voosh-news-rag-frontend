@@ -12,7 +12,7 @@ Reset button clears Redis history & rotates session
 
 Abort button cancels in-flight answer
 
-Live App: https://voosh-news-rag-frontend-cxilcz32z-pramods-projects-17c1ef9e.vercel.app/
+Live App: https://voosh-news-rag-frontend.vercel.app/
 Backend API: https://voosh-news-rag-backend.onrender.com/
 
 ✨ Features
@@ -56,7 +56,7 @@ Output Dir: dist
 
 Env:
 
-VITE_API_BASE_URL = https://<your-backend>.onrender.com/api
+VITE_API_BASE_URL = https://voosh-news-rag-backend.onrender.com/api
 
 Deploy → open the URL and test
 
